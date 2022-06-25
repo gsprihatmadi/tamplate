@@ -10,7 +10,6 @@ use Laravel\SerializableClosure\Support\ClosureStream;
 use Laravel\SerializableClosure\Support\ReflectionClosure;
 use Laravel\SerializableClosure\Support\SelfReference;
 use ReflectionObject;
-use UnitEnum;
 
 class Native implements Serializable
 {
@@ -242,7 +241,7 @@ class Native implements Serializable
             }
 
             unset($value);
-        } elseif (is_object($data) && ! $data instanceof static && ! $data instanceof UnitEnum) {
+        } elseif (is_object($data) && ! $data instanceof static) {
             if (isset($storage[$data])) {
                 $data = $storage[$data];
 
@@ -459,13 +458,6 @@ class Native implements Serializable
             }
 
             $instance = $data;
-
-            if ($data instanceof UnitEnum) {
-                $this->scope[$instance] = $data;
-
-                return;
-            }
-
             $reflection = new ReflectionObject($data);
 
             if (! $reflection->isUserDefined()) {
